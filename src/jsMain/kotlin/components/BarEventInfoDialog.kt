@@ -1,8 +1,7 @@
-import csstype.HtmlAttributes
+package components
 import mui.material.*
 import react.FC
 import react.Props
-import react.useState
 
 external interface PosterInfoDialogProps : Props {
     var isOpen: Boolean?
@@ -11,14 +10,10 @@ external interface PosterInfoDialogProps : Props {
     var onClose: () -> Unit
 }
 
-val PosterInfoDialog = FC<PosterInfoDialogProps> { props ->
+val BarInfoInfoDialog = FC<PosterInfoDialogProps> { props ->
     Dialog {
         fullWidth = true
         open = props.isOpen ?: false
-
-//        fun onCloseButtonClick() {
-//            open = false
-//        }
         onClose = { _, _ ->
             props.onClose()
         }
@@ -35,10 +30,9 @@ val PosterInfoDialog = FC<PosterInfoDialogProps> { props ->
                     onClick = {
                         props.onClose()
                     }
-                    +"Вернуться"
+                    +"Return"
                 }
             }
         }
-
     }
 }

@@ -1,6 +1,6 @@
+import components.App
 import react.dom.render
 import kotlinx.browser.document
-import kotlinx.browser.window
 import react.create
 
 fun main() {
