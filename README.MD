@@ -1,7 +1,7 @@
 # Kotlin Multiplatform. Full Stack Web App.
 
 ## Description
-This one is a sample (and also simple) website representing a not existed music club named Forte & Piano.
+This one is a sample (and also simple) website representing a nonexistent music club named Forte & Piano.
 The project demonstrates how front-end (client) and back-end (server) parts of the web app can be implemented with Kotlin.
 
 ## Tech stack
