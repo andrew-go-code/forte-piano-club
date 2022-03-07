@@ -7,8 +7,6 @@ import react.FC
 import react.Props
 import react.useState
 
-//private val scope = MainScope()
-
 val App = FC<Props> {
     var activeMenuItem by useState(AppMenuItem.EVENTS)
     var isSideMenuOpen by useState(false)
@@ -30,17 +28,10 @@ val App = FC<Props> {
                     }
                     onSelectedAppMenuDrawerItem = { activeItem -> activeMenuItem = activeItem }
                 }
-
                 when(activeMenuItem) {
                     AppMenuItem.EVENTS -> BarEvents()
                     else -> BarMenu()
                 }
-
-//                if (activeMenuItem == "poster") {
-//                    Poster()
-//                } else {
-//                    Menu()
-//                }
             }
 
         }

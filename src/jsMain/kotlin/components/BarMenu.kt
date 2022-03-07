@@ -1,18 +1,28 @@
 package components
+import BarMenuHolder
 import csstype.FlexGrow
 import csstype.pct
 import csstype.px
+import getBarMenuHolders
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import kotlinx.js.jso
 import mui.material.*
 import mui.system.ResponsiveStyleValue
-import react.FC
-import react.Props
-import react.ReactNode
+import react.*
 import react.dom.html.ReactHTML
-import react.useState
+
+private val scope = MainScope()
 
 val BarMenu = FC<Props> {
-    var activeTab by useState(1)
+    var barMenuHolders by useState(emptyList<BarMenuHolder>())
+    var activeTab by useState(0)
+
+    useEffectOnce {
+        scope.launch {
+            barMenuHolders = getBarMenuHolders()
+        }
+    }
 
     Box {
         sx = jso {
@@ -26,23 +36,21 @@ val BarMenu = FC<Props> {
                 onChange = { _, newValue ->
                     activeTab = newValue
                 }
-                barMenuHolder.forEach {
+                barMenuHolders.forEach {
                     Tab {
                         label = ReactNode(it.category)
                         id = "bar-menu-tab-${it.id}"
-                        value = it.id
                     }
                 }
             }
         }
     }
 
-
-    barMenuHolder.forEach { menuHolder ->
+    barMenuHolders.forEachIndexed { idx, menuHolder ->
         TabPanel {
             name = "tabpanel-bar-menu-${menuHolder.id}"
             activeValue = activeTab
-            id = menuHolder.id
+            index = idx
 
             Box {
                 sx = jso {
@@ -78,7 +86,15 @@ val BarMenu = FC<Props> {
                             item = true
                             xs = 4
                             Card {
+//                                sx = jso {
+//                                    width = 400.px
+//                                    height = 400.px
+//                                }
+
                                 CardMedia {
+                                    sx = jso {
+                                        height = 240.px
+                                    }
                                     component = ReactHTML.img
                                     image = menuItem.imageSrc
                                 }
@@ -102,65 +118,3 @@ val BarMenu = FC<Props> {
         }
     }
 }
-
-private data class BarMenuHolder(
-    val id: Int,
-    val category: String,
-    val items: List<BarMenuItem>
-) {
-    data class BarMenuItem(
-        val id: Int,
-        val name: String,
-        val description: String,
-        val calories: Int,
-        val imageSrc: String,
-        val price: Int
-    )
-}
-
-private val barMenuHolder = listOf(
-    BarMenuHolder(
-        id = 1,
-        category = "Drinks",
-        items = listOf(
-            BarMenuHolder.BarMenuItem(
-                id = 1,
-                name = "name 1",
-                description = "description 1",
-                calories = 100,
-                imageSrc = "https://media-cdn.tripadvisor.com/media/photo-s/1c/2f/33/2d/healthy-bowl-frische.jpg",
-                price = 100
-            ),
-            BarMenuHolder.BarMenuItem(
-                id = 2,
-                name = "name 2",
-                description = "description 2",
-                calories = 100,
-                imageSrc = "https://media-cdn.tripadvisor.com/media/photo-s/1c/2f/33/2d/healthy-bowl-frische.jpg",
-                price = 200
-            ),
-        )
-    ),
-    BarMenuHolder(
-        id = 2,
-        category = "Dessert",
-        items = listOf(
-            BarMenuHolder.BarMenuItem(
-                id = 3,
-                name = "name 3",
-                description = "description 3",
-                calories = 100,
-                imageSrc = "https://media-cdn.tripadvisor.com/media/photo-s/1c/2f/33/2d/healthy-bowl-frische.jpg",
-                price = 300
-            ),
-            BarMenuHolder.BarMenuItem(
-                id = 4,
-                name = "name 4",
-                description = "description 4",
-                calories = 100,
-                imageSrc = "https://media-cdn.tripadvisor.com/media/photo-s/1c/2f/33/2d/healthy-bowl-frische.jpg",
-                price = 400
-            ),
-        )
-    )
-)

@@ -9,13 +9,13 @@ import react.dom.html.ReactHTML
 external interface TabPanelProps : PropsWithChildren {
     var name: String
     var activeValue: Int
-    var id: Int
+    var index: Int
 }
 
 val TabPanel = FC<TabPanelProps> { props ->
     ReactHTML.div {
         role = AriaRole.tabpanel
-        hidden = props.activeValue != props.id
+        hidden = props.activeValue != props.index
         id = "tab-panel-${props.name}"
         Box {
             Typography {
